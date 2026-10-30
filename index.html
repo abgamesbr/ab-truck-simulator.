@@ -1,257 +1,303 @@
-# ab-truck-simulator.
-🚛 AB TRUCK SIMULATOR — Simulador de caminhões com gráficos 3D, Scania 113 bicuda vermelha, suspensão a ar ajustável, personalização, cargas e estradas para explorar. Desafie seus limites!
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AB TRUCK SIMULATOR</title>
+
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;background:#080c13;color:white;
- font-family:Arial,sans-serif;text-align:center;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-header{
- padding:18px;background:#05080f;
- color:#00bfff;font-size:25px;font-weight:bold;
- letter-spacing:2px;
+
+body {
+  font-family: Arial, sans-serif;
+  color: white;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 65% 55%, #424b55 0%, #20262e 38%, #090d12 85%);
+  overflow-x: hidden;
 }
-#scene{
- width:100%;height:65vh;min-height:350px;
- display:block;
+
+header {
+  padding: 25px 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ffffff22;
+  background: #080c12aa;
 }
-.controls{
- padding:15px;background:#101a2a;
- border-top:1px solid #008cff;
+
+.logo {
+  font-size: 27px;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
-button{
- padding:13px 20px;margin:6px;
- background:#007bff;color:white;
- border:0;border-radius:8px;
- font-size:15px;font-weight:bold;
- cursor:pointer;
+
+.logo span {
+  color: #168cff;
 }
-button:hover{background:#00bfff}
-p{color:#bbb;font-size:14px}
+
+.profile {
+  color: #bbb;
+  font-size: 13px;
+}
+
+main {
+  display: flex;
+  min-height: calc(100vh - 85px);
+}
+
+.menu {
+  width: 270px;
+  padding: 35px 20px;
+  background: #080c12d9;
+  border-right: 1px solid #ffffff18;
+}
+
+.menu h2 {
+  font-size: 13px;
+  color: #168cff;
+  margin: 0 0 22px 12px;
+  letter-spacing: 3px;
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  padding: 17px;
+  margin-bottom: 9px;
+  text-align: left;
+  color: #ddd;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.menu button:hover,
+.menu button.active {
+  background: #168cff22;
+  border-left: 4px solid #168cff;
+  color: white;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 45px;
+  min-width: 0;
+}
+
+.tag {
+  color: #168cff;
+  letter-spacing: 5px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 58px);
+  margin-top: 12px;
+  text-shadow: 0 4px 15px #000;
+}
+
+.subtitle {
+  color: #bbb;
+  margin-top: 12px;
+}
+
+.truck-area {
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.truck {
+  position: relative;
+  width: min(570px, 90%);
+  height: 190px;
+  filter: drop-shadow(0 20px 15px #0009);
+}
+
+.trailer {
+  position: absolute;
+  left: 0;
+  top: 30px;
+  width: 58%;
+  height: 105px;
+  background: linear-gradient(#d9dce0, #777f88);
+  border: 4px solid #343b43;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 5px #ffffff22;
+}
+
+.trailer::after {
+  content: "AB CARGAS";
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  text-align: center;
+  color: #263746;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+
+.cab {
+  position: absolute;
+  right: 5%;
+  top: 48px;
+  width: 33%;
+  height: 105px;
+  background: linear-gradient(110deg, #b90000, #ed1717, #780000);
+  border: 3px solid #510000;
+  border-radius: 20px 30px 7px 7px;
+}
+
+.cab::before {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 65%;
+  height: 38px;
+  background: linear-gradient(135deg, #172b3b, #08121c);
+  border: 3px solid #3d4146;
+  border-radius: 8px 18px 3px 3px;
+}
+
+.cab::after {
+  content: "SCANIA";
+  position: absolute;
+  bottom: 10px;
+  right: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.wheel {
+  position: absolute;
+  bottom: 0;
+  width: 49px;
+  height: 49px;
+  background: radial-gradient(circle, #777 0 18%, #222 20% 42%, #080808 45%);
+  border: 5px solid #111;
+  border-radius: 50%;
+}
+
+.w1 { left: 12%; }
+.w2 { left: 49%; }
+.w3 { right: 10%; }
+
+.floor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #168cff88;
+  box-shadow: 0 0 25px #168cff;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.start {
+  padding: 18px 45px;
+  background: #087be8;
+  color: white;
+  border: none;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.start:hover {
+  background: #2798ff;
+}
+
+.version {
+  color: #777;
+  font-size: 12px;
+  margin-top: 25px;
+}
+
+@media(max-width:700px) {
+  main { flex-direction: column; }
+  .menu { width: 100%; padding: 15px; }
+  .menu button { display: inline-block; width: auto; padding: 10px; }
+  .content { padding: 25px 15px; }
+  .truck { transform: scale(.85); }
+}
 </style>
 </head>
+
 <body>
 
-<header>🅰️🅱️ AB TRUCK SIMULATOR</header>
+<header>
+  <div class="logo"><span>AB</span> TRUCK SIMULATOR</div>
+  <div class="profile">PERFIL: MOTORISTA</div>
+</header>
 
-<div id="scene"></div>
+<main>
+  <nav class="menu">
+    <h2>MENU PRINCIPAL</h2>
+    <button class="active" onclick="selecionar(this)">🚛 Dirigir</button>
+    <button onclick="selecionar(this)">🔧 Garagem</button>
+    <button onclick="selecionar(this)">🏢 Concessionária</button>
+    <button onclick="selecionar(this)">📦 Mercado de trabalho</button>
+    <button onclick="selecionar(this)">⚙️ Configurações</button>
+    <button onclick="selecionar(this)">🚪 Sair</button>
+  </nav>
 
-<div class="controls">
-<h2>🚛 SCANIA 113 BICUDA</h2>
-<p>Suspensão a ar: <span id="altura">NORMAL</span></p>
-<button onclick="suspensao(1)">⬆ SUBIR</button>
-<button onclick="suspensao(-1)">⬇ BAIXAR</button>
-<button onclick="suspensao(0)">↔ NORMAL</button>
-<p>Arraste a tela para observar o caminhão em 3D.</p>
-</div>
+  <section class="content">
+    <div>
+      <div class="tag">AB GAMES APRESENTA</div>
+      <h1>AB TRUCK SIMULATOR</h1>
+      <p class="subtitle">Sua estrada. Seu caminhão. Sua história.</p>
+    </div>
 
-<script type="module">
-import * as THREE from
-'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import {OrbitControls} from
-'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+    <div class="truck-area">
+      <div class="truck">
+        <div class="trailer"></div>
+        <div class="cab"></div>
+        <div class="wheel w1"></div>
+        <div class="wheel w2"></div>
+        <div class="wheel w3"></div>
+      </div>
+      <div class="floor"></div>
+    </div>
 
-const container=document.getElementById("scene");
+    <div>
+      <div class="actions">
+        <button class="start" onclick="alert('Em breve: vamos começar a dirigir!')">
+          ▶ INICIAR JOGO
+        </button>
+      </div>
+      <div class="version">AB TRUCK SIMULATOR • VERSÃO 0.1</div>
+    </div>
+  </section>
+</main>
 
-const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x101a2a);
-
-const camera=new THREE.PerspectiveCamera(
-55,container.clientWidth/container.clientHeight,0.1,100
-);
-camera.position.set(6,4,7);
-
-const renderer=new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(container.clientWidth,container.clientHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-container.appendChild(renderer.domElement);
-
-const controls=new OrbitControls(camera,renderer.domElement);
-controls.enableDamping=true;
-controls.target.set(0,1,0);
-
-scene.add(new THREE.HemisphereLight(0xffffff,0x444466,2));
-
-const light=new THREE.DirectionalLight(0xffffff,2);
-light.position.set(5,8,5);
-scene.add(light);
-
-const ground=new THREE.Mesh(
-new THREE.PlaneGeometry(100,100),
-new THREE.MeshStandardMaterial({color:0x303943})
-);
-ground.rotation.x=-Math.PI/2;
-ground.position.y=-0.03;
-scene.add(ground);
-
-const truck=new THREE.Group();
-scene.add(truck);
-
-const red=new THREE.MeshStandardMaterial({color:0xb80012,roughness:0.4});
-const darkRed=new THREE.MeshStandardMaterial({color:0x72000a});
-const black=new THREE.MeshStandardMaterial({color:0x171b20});
-const glass=new THREE.MeshStandardMaterial({
-color:0x142d40,metalness:0.5,roughness:0.2
-});
-const silver=new THREE.MeshStandardMaterial({
-color:0x999999,metalness:0.8,roughness:0.25
-});
-
-function box(parent,w,h,d,x,y,z,mat){
- const mesh=new THREE.Mesh(
- new THREE.BoxGeometry(w,h,d),mat
- );
- mesh.position.set(x,y,z);
- parent.add(mesh);
- return mesh;
+<script>
+function selecionar(botao) {
+  document.querySelectorAll(".menu button").forEach(b => {
+    b.classList.remove("active");
+  });
+  botao.classList.add("active");
 }
-
-// Grupo que sobe e desce com a suspensão
-const sprung=new THREE.Group();
-truck.add(sprung);
-
-// CHASSI
-box(sprung,1.15,0.22,4.5,0,0.85,0,black);
-
-// Eixos e detalhes do chassi
-box(sprung,1.45,0.12,0.18,0,0.65,1.35,silver);
-box(sprung,1.45,0.12,0.18,0,0.65,-1.3,silver);
-
-// CAPÔ BICUDO
-box(sprung,1.65,0.85,1.65,0,1.55,1.45,red);
-box(sprung,1.7,0.13,0.5,0,1.12,2.25,darkRed);
-
-// CABINE
-box(sprung,1.85,1.35,1.35,0,2.15,-0.15,red);
-
-// TETO
-box(sprung,1.9,0.16,1.4,0,2.88,-0.15,red);
-
-// PARA-BRISA
-box(sprung,1.48,0.85,0.035,0,2.35,0.54,glass);
-
-// VIDROS LATERAIS
-box(sprung,0.035,0.75,0.9,0.94,2.36,-0.18,glass);
-box(sprung,0.035,0.75,0.9,-0.94,2.36,-0.18,glass);
-
-// PORTAS
-box(sprung,0.07,0.8,0.85,0.94,1.75,-0.2,red);
-box(sprung,0.07,0.8,0.85,-0.94,1.75,-0.2,red);
-
-// GRADE FRONTAL
-box(sprung,1.25,0.55,0.045,0,1.48,2.29,black);
-
-// DETALHE DA GRADE
-for(let y=0;y<4;y++){
- box(sprung,1.05,0.025,0.035,0,1.27+y*0.12,2.32,silver);
-}
-
-// FARÓIS
-box(sprung,0.3,0.22,0.08,0.65,1.3,2.32,silver);
-box(sprung,0.3,0.22,0.08,-0.65,1.3,2.32,silver);
-
-// PARA-CHOQUE
-box(sprung,1.9,0.2,0.3,0,0.98,2.35,silver);
-
-// ESPELHOS
-box(sprung,0.12,0.4,0.12,1.12,2.15,0.3,black);
-box(sprung,0.12,0.4,0.12,-1.12,2.15,0.3,black);
-box(sprung,0.3,0.35,0.15,1.18,2.4,0.3,black);
-box(sprung,0.3,0.35,0.15,-1.18,2.4,0.3,black);
-
-// RODAS
-function wheel(x,z){
- const group=new THREE.Group();
- group.position.set(x,0.53,z);
- truck.add(group);
-
- const tire=new THREE.Mesh(
- new THREE.CylinderGeometry(0.53,0.53,0.3,32),
- black
- );
- tire.rotation.z=Math.PI/2;
- group.add(tire);
-
- const rim=new THREE.Mesh(
- new THREE.CylinderGeometry(0.29,0.29,0.32,24),
- silver
- );
- rim.rotation.z=Math.PI/2;
- group.add(rim);
-
- const center=new THREE.Mesh(
- new THREE.CylinderGeometry(0.11,0.11,0.34,16),
- black
- );
- center.rotation.z=Math.PI/2;
- group.add(center);
-
- for(let i=0;i<8;i++){
- const a=i*Math.PI/4;
- const bolt=new THREE.Mesh(
- new THREE.SphereGeometry(0.035,8,8),
- silver
- );
- bolt.position.set(
- 0.17*Math.cos(a),
- 0.17*Math.sin(a),
- 0.17
- );
- group.add(bolt);
- }
-
- return group;
-}
-
-// Duas rodas dianteiras e dois eixos traseiros
-wheel(-0.95,1.45);
-wheel(0.95,1.45);
-wheel(-0.95,-1.05);
-wheel(0.95,-1.05);
-wheel(-0.95,-1.8);
-wheel(0.95,-1.8);
-
-// Escapamento
-box(sprung,0.13,1.3,0.13,0.85,1.65,-1.15,silver);
-
-// SUSPENSÃO A AR
-let nivel=0;
-function suspensao(direcao){
- nivel+=direcao*0.12;
- nivel=Math.max(-0.24,Math.min(0.36,nivel));
- if(direcao===0)nivel=0;
-
- sprung.position.y=nivel;
-
- let texto="NORMAL";
- if(nivel>0.05)texto="ALTA";
- if(nivel<-0.05)texto="BAIXA";
- document.getElementById("altura").textContent=texto;
-}
-
-// Renderização
-function animate(){
- requestAnimationFrame(animate);
- controls.update();
- renderer.render(scene,camera);
-}
-animate();
-
-// Ajuste para celular e computador
-window.addEventListener("resize",()=>{
- const w=container.clientWidth;
- const h=container.clientHeight;
- camera.aspect=w/h;
- camera.updateProjectionMatrix();
- renderer.setSize(w,h);
-});
 </script>
+
 </body>
 </html>
